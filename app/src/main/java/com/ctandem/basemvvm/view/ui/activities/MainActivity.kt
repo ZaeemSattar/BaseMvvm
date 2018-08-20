@@ -9,8 +9,10 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.widget.Toast
 import com.ctandem.basemvvm.R
 import com.ctandem.basemvvm.databinding.ActivityMainBinding
+import com.ctandem.basemvvm.service.callbacks.ResponseCodes
 import com.ctandem.basemvvm.view.adapter.PostsAdapter
 import com.ctandem.basemvvm.viewmodel.MainViewModel
 
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupPostRV()
+        setupErrors()
     }
 
     private fun setupPostRV() {
@@ -73,6 +76,14 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+    }
+
+    private fun setupErrors() {
+        viewModel.getError().observe(this, Observer {
+            if (it != null && it.responseCode == ResponseCodes.CODE_ERROR) {
+                Toast.makeText(this, it.message + " " + it.responseCode, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
 

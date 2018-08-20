@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
+import com.ctandem.basemvvm.service.callbacks.RetrofitResponse
 import com.ctandem.basemvvm.service.model.Post
 import com.ctandem.basemvvm.service.repository.Repository
 import com.ctandem.basemvvm.view.ui.activities.DetailActivity
@@ -28,6 +29,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
    * will hold UI data for Main screen
    * */
     private var mAllPosts: LiveData<List<Post>> = MutableLiveData<List<Post>>()
+    private var mError: LiveData<RetrofitResponse> = MutableLiveData<RetrofitResponse>()
+
 
     fun getAllPosts(): LiveData<List<Post>> {
         /*
@@ -39,6 +42,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return mAllPosts
     }
 
+    fun getError(): LiveData<RetrofitResponse>
+    {
+        return mRepository.error
+    }
     fun showPostDetail(pos: Int) {
         /*
         * start activity from context of application with
